@@ -33,6 +33,9 @@
         <div class="hud top-right"><span class="hud-label">ROOM / PLAYERS</span><b id="wave">—</b><small id="enemies">连接中</small></div>
         <div class="hud bottom-left"><span class="hud-label">SCORE</span><b id="score">0000</b><small><span id="kills">0</span> eliminations</small></div>
         <div class="hud bottom-center weapon-readout"><span class="hud-label" id="weapon-name">PULSE CARBINE</span><b id="ammo">∞</b><small id="weapon-info">AUTO / 18 DMG</small></div>
+        <aside id="scoreboard" class="scoreboard hidden"><p class="eyebrow">ROOM SCOREBOARD <kbd>TAB</kbd></p><div id="score-rows"></div></aside>
+        <div id="feed" class="kill-feed" aria-live="polite"></div>
+        <form id="chat" class="chat hidden"><input id="chat-input" maxlength="180" placeholder="Enter 发送消息" autocomplete="off"></form>
       </section>
     </section>
     <footer class="game-footer">NEON RIFT ARENA · 原创多人俯视角射击原型 <span>本地服务器重启后可在多个浏览器标签页联机</span></footer>

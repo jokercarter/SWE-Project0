@@ -125,6 +125,12 @@ async def arena_socket(socket: WebSocket):
                         target.hp = 100 + target.upgrades['vitality'] * 20
                         target.x, target.y = 100 + secrets.randbelow(760), 90 + secrets.randbelow(460)
                         player.score += 100
+                        await broadcast(room, {'type': 'event', 'kind': 'kill', 'payload': {'by': player.name, 'target': target.name}})
+            elif kind == 'chat':
+                content = ' '.join(str(message.get('content', '')).split())[:180]
+                if content:
+                    await broadcast(room, {'type': 'event', 'kind': 'chat', 'payload': {'name': player.name, 'content': content}})
+                    continue
             elif kind == 'event':
                 payload = message.get('payload', {})
                 if isinstance(payload, dict):
