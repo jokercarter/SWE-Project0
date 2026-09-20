@@ -1,0 +1,374 @@
+[
+  {
+    "week": "01",
+    "title": "Python 工程化、Git 与命令行",
+    "title_en": "Python engineering, Git & command line",
+    "learn": "创建 venv 虚拟环境，用 pip 安装依赖并记录版本；组织模块、入口与配置文件。学习类型注解、try/except 异常处理、with 文件管理、UTF-8、JSON/CSV 读写和环境变量。练习 PowerShell/Linux 的目录切换、路径、文件查看和进程停止。掌握 git init、clone、status、diff、add、commit、log、branch、switch、merge、push 与 Pull Request，理解 .gitignore 和提交粒度。",
+    "learn_en": "Python project structure, virtual environments, package management, type hints, exceptions, file I/O, JSON, CSV, environment variables, PowerShell/Linux commands, Git branches and commit conventions.",
+    "build": "开发 JSON 文件版命令行 Todo：新增、列出、搜索、完成、删除；加入参数检查、文件不存在和 JSON 损坏时的错误提示。每天完成一个小功能并提交。",
+    "build_en": "Build a JSON-backed command-line Todo app.",
+    "ship": "可运行源码、依赖清单、示例数据、README 和运行说明；本地至少 5 次有意义提交。准备自己的 GitHub 仓库，实际发布时再更新作品集链接。",
+    "ship_en": "GitHub repository, README, run instructions and at least five meaningful commits.",
+    "check": "从新目录按 README 安装和运行；新增任务后重启仍可读取；错误输入不导致数据丢失。能解释环境隔离、每个目录的作用，以及分支、提交、合并的区别。",
+    "check_en": "Install and run it from an empty directory; explain the project structure and each Git operation.",
+    "chapters": [
+      {
+        "zh": "环境与模块",
+        "en": "Environments and modules"
+      },
+      {
+        "zh": "类型、异常与文件",
+        "en": "Types, errors and files"
+      },
+      {
+        "zh": "JSON Todo 实现",
+        "en": "JSON Todo implementation"
+      },
+      {
+        "zh": "Git 与命令行",
+        "en": "Git and command line"
+      }
+    ]
+  },
+  {
+    "week": "02",
+    "title": "HTTP、REST API 与 FastAPI",
+    "title_en": "HTTP, REST APIs & FastAPI",
+    "learn": "理解客户端、服务器、请求与响应；掌握 URL、路径参数、查询参数、请求头、JSON 请求体、GET/POST/PUT/PATCH/DELETE 和常见 2xx/4xx/5xx 状态码。学习 REST 资源设计、FastAPI 路由、Pydantic 类型及字段验证、Swagger /docs、pytest 断言与 fixture。",
+    "learn_en": "Clients and servers, HTTP methods, URLs, status codes, headers, request bodies, JSON, REST design, FastAPI routes, Pydantic validation, Swagger and pytest basics.",
+    "build": "将 Todo 改为任务管理 API，实现创建、列表、详情、更新和删除。定义不存在任务、非法字段、缺少参数的响应；用 FastAPI TestClient 编写接口测试。",
+    "build_en": "Build a task-management API with create, read, update and delete operations.",
+    "ship": "自动生成的 API 文档、请求/响应示例、验证规则、统一错误响应和至少 5 个有意义测试。",
+    "ship_en": "API documentation, input validation, error responses and at least five tests.",
+    "check": "在 /docs 操作所有接口；验证创建成功、非法输入、查询不存在任务、更新与删除。能用一条 pytest 命令重复运行，且测试互不依赖。",
+    "check_en": "Operate every endpoint from `/docs`; rerun the test command successfully.",
+    "chapters": [
+      {
+        "zh": "HTTP 请求与响应",
+        "en": "HTTP requests and responses"
+      },
+      {
+        "zh": "Pydantic 与路由",
+        "en": "Validation and routing"
+      },
+      {
+        "zh": "CRUD 与状态码",
+        "en": "CRUD and status codes"
+      },
+      {
+        "zh": "API 测试",
+        "en": "API testing"
+      }
+    ]
+  },
+  {
+    "week": "03",
+    "title": "SQL、数据库与 ORM",
+    "title_en": "SQL, databases & ORM",
+    "learn": "学习表、行、列、类型、主键、外键、一对多关系与约束。练习 SELECT/INSERT/UPDATE/DELETE、WHERE、ORDER BY、LIMIT、JOIN、聚合。理解索引的收益与写入成本、事务提交/回滚；先用 SQLite 理解持久化，再使用 PostgreSQL。学习 SQLAlchemy 模型、Session 和数据库迁移。",
+    "learn_en": "Tables, primary and foreign keys, relationships, CRUD, JOINs, indexes, transactions, SQLite, PostgreSQL, SQLAlchemy and migrations.",
+    "build": "把 JSON 存储替换为数据库；建立用户与任务表及外键，加入分页、筛选和排序。练习一次表结构迁移和事务回滚；此时用户表是数据模型，不等于已实现登录权限。",
+    "build_en": "Move the Todo API from JSON to a database; add users and task ownership.",
+    "ship": "数据库结构图、初始化/迁移步骤、示例数据、JOIN 查询与分页接口。",
+    "ship_en": "Schema diagram, pagination, filtering, sorting and a JOIN query.",
+    "check": "重启后数据仍存在；非法外键被拒绝；分页结果稳定；失败事务不保留部分修改。能解释表关系、何时需要索引、为何使用事务。",
+    "check_en": "Data survives a restart; explain table relationships, indexes and transactions.",
+    "chapters": [
+      {
+        "zh": "表、主外键与关系",
+        "en": "Tables, keys and relations"
+      },
+      {
+        "zh": "查询、JOIN 与分页",
+        "en": "Queries, joins and pagination"
+      },
+      {
+        "zh": "事务与回滚",
+        "en": "Transactions and rollback"
+      },
+      {
+        "zh": "ORM、索引与迁移",
+        "en": "ORM, indexes and migrations"
+      }
+    ]
+  },
+  {
+    "week": "04",
+    "title": "Docker、测试与持续集成",
+    "title_en": "Docker, testing & CI",
+    "learn": "理解镜像与容器、Dockerfile、构建上下文、端口映射、volume 和容器网络。学习 Docker Compose 服务依赖、健康检查、数据库持久化；区分单元与集成测试；配置日志、.env、.env.example 与 GitHub Actions。",
+    "learn_en": "Images, containers, Dockerfile, Compose, unit and integration tests, logs, `.env` configuration and GitHub Actions.",
+    "build": "完成 Task Management API：组合 FastAPI、PostgreSQL、SQLAlchemy 和 pytest，使用 Compose 启动；为健康检查、CRUD 和错误路径补测试，配置 CI 自动运行。",
+    "build_en": "Finish a production-style Task Management API.",
+    "ship": "完整后端项目、Dockerfile、Compose 配置、测试、CI 工作流和陌生人可照做的 README。开始整理英文简历并每周尝试投递约 5 个匹配岗位。",
+    "ship_en": "FastAPI + PostgreSQL + SQLAlchemy + pytest + Docker Compose project.",
+    "check": "docker compose up --build 可启动；停止再启动后数据不丢失；测试通过；实际连接 GitHub 后再核实 CI 运行结果。不能把本地测试成功写成云端 CI 已成功。",
+    "check_en": "One command starts it; CI runs tests; README guides a new developer through setup.",
+    "chapters": [
+      {
+        "zh": "单元与集成测试",
+        "en": "Unit and integration tests"
+      },
+      {
+        "zh": "日志与配置",
+        "en": "Logging and configuration"
+      },
+      {
+        "zh": "Docker 与 Compose",
+        "en": "Docker and Compose"
+      },
+      {
+        "zh": "CI 与交付文档",
+        "en": "CI and delivery documentation"
+      }
+    ]
+  },
+  {
+    "week": "05",
+    "title": "机器学习基础",
+    "title_en": "Machine-learning foundations",
+    "learn": "学习 NumPy 数组、shape、广播；Pandas 缺失值、重复值、编码和基本统计。理解特征/标签、分类/回归、训练/验证/测试划分、过拟合/欠拟合、数据泄漏。学习线性回归、逻辑回归、决策树及 baseline；用混淆矩阵理解 Accuracy、Precision、Recall、F1 与交叉验证。",
+    "learn_en": "Features, labels, train/validation/test splits, classification, regression, overfitting, underfitting, data leakage, accuracy, Precision, Recall, F1 and cross-validation.",
+    "build": "选择一个公开表格分类数据集，用 scikit-learn Pipeline 做预处理；只在训练数据上拟合转换器。比较 DummyClassifier 与至少两个模型，固定随机种子，检查错误样本。",
+    "build_en": "Use NumPy, Pandas and scikit-learn on a public dataset.",
+    "ship": "数据来源与许可说明、清洗 notebook、可复现实验脚本、模型对比表和错误分析。",
+    "ship_en": "Data-cleaning notebook, two model comparisons and error-sample analysis.",
+    "check": "能解释为什么测试集不能参与调参，为什么类别不平衡时准确率不够；说明指标选择并给出至少 5 个错误案例。报告真实结果，不追求虚高分数。",
+    "check_en": "Explain the split, metric choice and why the model fails on specific samples.",
+    "chapters": [
+      {
+        "zh": "数组与数据清洗",
+        "en": "Arrays and data cleaning"
+      },
+      {
+        "zh": "数据划分与泄漏",
+        "en": "Splits and leakage"
+      },
+      {
+        "zh": "模型与交叉验证",
+        "en": "Models and cross-validation"
+      },
+      {
+        "zh": "指标与错误分析",
+        "en": "Metrics and error analysis"
+      }
+    ]
+  },
+  {
+    "week": "06",
+    "title": "PyTorch 与神经网络",
+    "title_en": "PyTorch & neural networks",
+    "learn": "理解 Tensor 的 shape、dtype、device，Dataset/DataLoader 的批处理与打乱。学习线性层、激活函数、前向传播、损失、autograd、反向传播、优化器、zero_grad/backward/step；掌握 train/eval、no_grad、CPU/GPU 转移、随机种子、state_dict 保存与加载。",
+    "learn_en": "Tensors, Dataset, DataLoader, layers, activations, loss functions, backpropagation, optimizers, training loops, CPU/GPU and saving/loading models.",
+    "build": "使用 Fashion-MNIST 完成图像分类，先做小型 MLP；写训练与验证循环，记录每轮损失和准确率；保存验证集最佳 checkpoint，编写独立推理脚本。无 GPU 时用 CPU 与较小实验。",
+    "build_en": "Train a text- or image-classification model and write a standalone inference script.",
+    "ship": "训练曲线、最佳模型权重、训练配置、独立推理脚本与实验记录。",
+    "ship_en": "Training curves, best checkpoint, inference script and experiment notes.",
+    "check": "能独立解释并写出训练循环；重载权重后推理结果一致；能解释 eval 与 no_grad 的区别，以及训练损失下降而验证损失上升的含义。",
+    "check_en": "Write a training loop independently; explain `train()`, `eval()` and overfitting.",
+    "chapters": [
+      {
+        "zh": "Tensor 与 DataLoader",
+        "en": "Tensors and DataLoader"
+      },
+      {
+        "zh": "反向传播与训练循环",
+        "en": "Backpropagation and training"
+      },
+      {
+        "zh": "验证与过拟合",
+        "en": "Validation and overfitting"
+      },
+      {
+        "zh": "保存、加载与推理",
+        "en": "Save, load and inference"
+      }
+    ]
+  },
+  {
+    "week": "07",
+    "title": "Transformer、Embedding 与模型 API",
+    "title_en": "Transformers, embeddings & model APIs",
+    "learn": "理解 token、上下文窗口、attention 的直观作用和 Transformer 的用途。学习 embedding、向量维度、归一化与余弦相似度，Hugging Face 模型卡与 tokenizer。掌握模型 API 请求/响应、结构化输出验证、超时、有限重试、限流、token 用量与费用预算。",
+    "learn_en": "Tokens, the intuition behind attention, Transformer use cases, embeddings, cosine similarity, Hugging Face basics, model APIs, structured output, timeouts, retries and cost control.",
+    "build": "对 Markdown/TXT 文档按段落切分，保留文档名与段落编号；生成 embedding，计算相似度并返回 top-k；用 FastAPI 提供语义搜索接口，对比关键词搜索。",
+    "build_en": "Implement text chunking, embedding generation and a semantic-search API.",
+    "ship": "搜索 API、示例请求、切分策略说明、检索结果和失败查询记录；模型密钥从环境变量读取。",
+    "ship_en": "FastAPI search endpoint, retrieval examples and a chunking-strategy note.",
+    "check": "用至少 10 个问题人工核对检索片段，能解释语义相近却不包含答案的情况。模拟超时和无效输出，确认不会无限重试或无限消费。",
+    "check_en": "Explain keyword vs semantic search and record failed searches.",
+    "chapters": [
+      {
+        "zh": "Token 与 Attention",
+        "en": "Tokens and attention"
+      },
+      {
+        "zh": "Embedding 与余弦",
+        "en": "Embeddings and cosine similarity"
+      },
+      {
+        "zh": "切分与搜索接口",
+        "en": "Chunking and search API"
+      },
+      {
+        "zh": "模型 API 可靠性",
+        "en": "Model API reliability"
+      }
+    ]
+  },
+  {
+    "week": "08",
+    "title": "RAG 文档问答系统",
+    "title_en": "RAG document Q&A",
+    "learn": "理解上传→解析→chunking→embedding→检索→上下文→生成→引用的完整数据流。学习 PDF 页码保留、top-k 选择、上下文长度、来源映射、幻觉和拒答；区分检索命中、回答正确、引用支持三个评测维度。理解文档内容不能被当成系统指令。",
+    "learn_en": "RAG data flow, document parsing, chunking, vector retrieval, top-k, context assembly, citations, hallucinations, refusal strategies and evaluation sets.",
+    "build": "实现 PDF/Markdown/TXT 上传、问答与历史记录，使用 FastAPI 和简单网页；处理重复上传、解析失败和空文本。为 PDF 保留页码，其他格式使用段落来源；证据不足时明确提示。",
+    "build_en": "Build a Document Q&A system with uploads, citations and history.",
+    "ship": "RAG 源码、界面、Docker 配置与至少 30 道评测题，包含可回答、无答案和干扰问题；表中记录标准要点、来源、检索命中、回答和引用判断。",
+    "ship_en": "FastAPI backend, small web UI, Docker configuration and at least 30 evaluation questions.",
+    "check": "逐条检查引用确实支持答案，不把“有引用”等同于正确；测试无证据问题并记录误答。历史可查询，上传失败可理解。开始每周约 10–15 个匹配岗位申请。",
+    "check_en": "Answers show file and page sources; unsupported questions are not fabricated; results are tabulated.",
+    "chapters": [
+      {
+        "zh": "解析与来源定位",
+        "en": "Parsing and source locations"
+      },
+      {
+        "zh": "检索与上下文",
+        "en": "Retrieval and context"
+      },
+      {
+        "zh": "引用与拒答",
+        "en": "Citations and abstention"
+      },
+      {
+        "zh": "评测与失败分析",
+        "en": "Evaluation and failures"
+      }
+    ]
+  },
+  {
+    "week": "09",
+    "title": "软件质量、可靠性与维护",
+    "title_en": "Quality, reliability & maintainability",
+    "learn": "学习 API/服务/检索/存储/配置分层、依赖注入基础、业务与数据访问分离。掌握日志级别和请求 ID、异常映射、mock、单元/集成测试；理解 async/await 与阻塞调用、超时、有限重试、上传类型/大小限制和密钥管理。",
+    "learn_en": "Layered architecture, separation of business and data access, configuration, secret protection, logging, exceptions, mocks, unit/integration tests, async code, timeouts, retries and upload limits.",
+    "build": "重构 RAG 系统，抽出模型客户端与检索模块；用 mock 模拟模型失败、限流、超时和格式异常；限制文件大小并检查内容，避免把敏感提示或密钥写入日志。",
+    "build_en": "Refactor the RAG project into API, service, retrieval, storage and configuration modules.",
+    "ship": "模块结构图、核心测试、结构化日志、配置样例、清晰错误响应和文件限制。",
+    "ship_en": "Core-logic tests, structured logs, error handling and upload limits.",
+    "check": "检查当前文件与 Git 历史中未提交密钥；测试能离线模拟外部服务；错误路径有稳定响应。说明哪些函数适合异步以及哪些工作会阻塞事件循环。",
+    "check_en": "No API key in Git; failures return clear responses; core modules can be tested independently.",
+    "chapters": [
+      {
+        "zh": "分层与接口",
+        "en": "Layers and interfaces"
+      },
+      {
+        "zh": "测试与 Mock",
+        "en": "Tests and mocks"
+      },
+      {
+        "zh": "异步、超时与重试",
+        "en": "Async, timeouts and retries"
+      },
+      {
+        "zh": "上传和密钥保护",
+        "en": "Upload and secret protection"
+      }
+    ]
+  },
+  {
+    "week": "10",
+    "title": "部署与基础系统设计",
+    "title_en": "Deployment & basic system design",
+    "learn": "理解服务器、容器、反向代理、域名/DNS、HTTPS、健康检查与持久化存储。学习后端/数据库网络、缓存命中与失效、队列/后台任务、同步/异步，以及并发请求对延迟、模型限额与成本的影响。",
+    "learn_en": "Cloud servers, containers, reverse proxies, HTTPS, health checks, backend/database communication, caching, queues, background jobs, sync vs async and AI-system scaling.",
+    "build": "先在本地完成部署演练、健康检查与架构图；选择托管环境后部署 RAG Demo，配置环境变量、HTTPS、日志与重启恢复。公开前给有成本的模型接口设置使用限制。",
+    "build_en": "Deploy the RAG project with a health check and architecture diagram.",
+    "ship": "可运行本地版本、部署文档、架构图、2–3 分钟视频；完成实际部署后再记录公网 Demo 地址与测试日期。",
+    "ship_en": "Reachable demo, deployment guide and a 2–3 minute walkthrough video.",
+    "check": "陌生人可按 README 启动；能解释浏览器→后端→检索/数据库→模型的请求流程。测试重启恢复、健康检查、并发与超时；当前个人网站不会因这项学习任务而自动发布。",
+    "check_en": "A new user can run or visit it from the README; explain the full request path.",
+    "chapters": [
+      {
+        "zh": "请求链路与 HTTPS",
+        "en": "Request flow and HTTPS"
+      },
+      {
+        "zh": "缓存策略",
+        "en": "Caching strategies"
+      },
+      {
+        "zh": "队列与后台任务",
+        "en": "Queues and background jobs"
+      },
+      {
+        "zh": "健康检查与部署",
+        "en": "Health checks and deployment"
+      }
+    ]
+  },
+  {
+    "week": "11",
+    "title": "作品集、英文简历与项目表达",
+    "title_en": "Portfolio, résumé & project storytelling",
+    "learn": "学习 README 的问题/功能/启动/架构/测试/限制结构；准备截图与图示；讲清技术选型、失败案例和实际测量条件。练习英文项目 bullet 的行动、方法、结果，以及 STAR 的背景、任务、行动、结果。",
+    "learn_en": "GitHub README structure, screenshots, architecture diagrams, technical decisions, honest metrics, English project bullets and STAR stories.",
+    "build": "整理任务管理 API 和 RAG 两个仓库；为每个项目补启动步骤、配置样例、测试和评测说明。制作一页英文简历与 GitHub Profile，录制演示；区分自己实现与 AI 辅助部分。",
+    "build_en": "Polish the Task API and RAG repositories.",
+    "ship": "两个完整仓库、一页英文简历、Profile、项目截图、架构图和演示视频。项目描述只使用真实且可复现的数字。",
+    "ship_en": "Two complete repositories, one-page English résumé, GitHub profile and demo video.",
+    "check": "用新目录验证 README；能在 2 分钟讲价值、8 分钟讲实现；解释问题、架构、困难、测试与下一步改进。链接无失效，计划项目不被描述为已完成。",
+    "check_en": "Explain the problem, architecture, failure, tests and next improvement for each project.",
+    "chapters": [
+      {
+        "zh": "README 与证据",
+        "en": "README and evidence"
+      },
+      {
+        "zh": "架构与技术取舍",
+        "en": "Architecture and tradeoffs"
+      },
+      {
+        "zh": "英文简历",
+        "en": "English resume"
+      },
+      {
+        "zh": "STAR 与演示",
+        "en": "STAR and demos"
+      }
+    ]
+  },
+  {
+    "week": "12",
+    "title": "面试、模拟与集中申请",
+    "title_en": "Interviews, mocks & applications",
+    "learn": "复习 Python 容器、迭代器/生成器、异常、类型注解和异步；复习 HTTP/REST、JOIN/索引/事务、缓存、Embedding/RAG 与评测。算法覆盖数组、哈希、链表、树、图和基础 DP，练习复杂度与边界情况；准备基础系统设计和行为面试。",
+    "learn_en": "Python interviews, HTTP, REST, SQL, indexes, transactions, caching, embeddings, RAG evaluation, system design and behavioral interviews.",
+    "build": "安排算法、项目讲解、AI 基础与行为面试四类模拟；每次记录不会的问题并复盘重答。准备 60 秒自我介绍和项目 2/8 分钟版本；按岗位要求调整简历。",
+    "build_en": "Run algorithm, project, AI-fundamentals and behavioral mock interviews.",
+    "ship": "模拟记录、复盘清单、自我介绍、项目讲稿、定制简历和申请表（岗位、链接、日期、状态、下一步）。",
+    "ship_en": "A 60-second introduction, 2-minute and 8-minute project explanations, tailored résumés.",
+    "check": "完成至少 4 次模拟；争取本周约 20 个匹配申请，数量服从岗位质量与资格要求。能够独立解释代码、失败案例和扩展思路；计划完成不代表保证获得实习。",
+    "check_en": "Complete at least four mocks and submit about 20 targeted applications.",
+    "chapters": [
+      {
+        "zh": "Python 与算法",
+        "en": "Python and algorithms"
+      },
+      {
+        "zh": "系统设计与 AI",
+        "en": "System design and AI"
+      },
+      {
+        "zh": "模拟面试与复盘",
+        "en": "Mock interviews and reflection"
+      },
+      {
+        "zh": "针对性申请",
+        "en": "Targeted applications"
+      }
+    ]
+  }
+]

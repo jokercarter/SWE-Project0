@@ -1,0 +1,15 @@
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+sqlalchemy==2.0.40
+alembic==1.15.2
+argon2-cffi==23.1.0
+jupyter-client==8.6.3
+ipykernel==6.29.5
+nbformat==5.10.4
+pypdf==5.4.0
+numpy==2.2.5
+pandas==2.2.3
+scikit-learn==1.6.1
+matplotlib==3.10.1
+httpx==0.28.1
+pytest==8.3.5

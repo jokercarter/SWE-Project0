@@ -1,0 +1,3 @@
+import {useEffect,useState} from 'react';
+import DOMPurify from 'dompurify';
+export default function Architecture({source}:{source:string}){const [svg,setSvg]=useState('');useEffect(()=>{let alive=true;(async()=>{try{const {default:mermaid}=await import('mermaid');mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'neutral',flowchart:{htmlLabels:false},htmlLabels:false});await mermaid.parse(source);const result=await mermaid.render('diagram-'+crypto.randomUUID(),source);if(alive)setSvg(DOMPurify.sanitize(result.svg,{USE_PROFILES:{svg:true,svgFilters:true}}));}catch{if(alive)setSvg('');}})();return()=>{alive=false;};},[source]);return svg?<div className="architecture" dangerouslySetInnerHTML={{__html:svg}}/>:<pre>{source}</pre>;}

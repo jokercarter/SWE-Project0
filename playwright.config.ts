@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'tests',timeout:90000,workers:1,use:{baseURL:'http://127.0.0.1:4174',headless:true,viewport:{width:1440,height:1000}},reporter:[['list'],['json',{outputFile:'output/browser-test-results.json'}]],webServer:{command:'.venv\\Scripts\\python.exe -m uvicorn backend.run:app --host 127.0.0.1 --port 4174',url:'http://127.0.0.1:4174/api/health',reuseExistingServer:false,env:{WORKBENCH_DATA:'tmp/browser-'+Date.now()},timeout:30000}});

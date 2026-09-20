@@ -1,0 +1,13 @@
+dist/
+*.log
+node_modules/
+.venv/
+.workbench/
+workbench-dist/
+__pycache__/
+.pytest_cache/
+tmp/
+*.sqlite
+*.db
+test-results/
+playwright-report/

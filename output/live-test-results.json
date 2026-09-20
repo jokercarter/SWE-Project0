@@ -1,0 +1,50 @@
+[
+  {
+    "check": "notebook cross-cell variables",
+    "passed": true
+  },
+  {
+    "check": "independent kernels and errors",
+    "passed": true
+  },
+  {
+    "check": "real chart output",
+    "passed": true
+  },
+  {
+    "check": "kernel interrupt",
+    "passed": true
+  },
+  {
+    "check": "kernel restart clears variables",
+    "passed": true
+  },
+  {
+    "check": "backup round-trip",
+    "passed": true
+  },
+  {
+    "check": "real Codex connection",
+    "passed": true
+  },
+  {
+    "check": "real Codex document answer and matching citation",
+    "passed": true
+  },
+  {
+    "check": "text assistant refuses writes",
+    "passed": true
+  },
+  {
+    "check": "real Codex interruption",
+    "passed": true
+  },
+  {
+    "check": "service restart persistence",
+    "passed": true
+  },
+  {
+    "check": "website session resume after server restart",
+    "passed": true
+  }
+]
