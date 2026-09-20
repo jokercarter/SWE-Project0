@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070a12">
+  <title>Neon Rift Arena</title>
+  <link rel="stylesheet" href="/arena/game.css">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="game-topbar">
+      <a href="/" class="brand">NR<span>•</span>ARENA</a>
+      <div class="match-state"><span class="live-dot"></span><span id="state-label">LIVE MATCH</span><strong id="timer">00:00</strong></div>
+      <button id="restart" class="quiet-button">重新开始 <kbd>R</kbd></button>
+    </header>
+    <section class="game-layout">
+      <aside class="panel loadout-panel">
+        <p class="eyebrow">LOADOUT</p>
+        <button class="weapon active" data-weapon="pulse"><span class="key">1</span><span><b>Pulse Carbine</b><small>稳定、远距离</small></span><i>∞</i></button>
+        <button class="weapon" data-weapon="scatter"><span class="key">2</span><span><b>Scatter Cannon</b><small>近距离爆发</small></span><i>6</i></button>
+        <div class="ability"><span class="key">SPACE</span><span><b>Phase Dash</b><small>穿越火线</small></span><div class="cooldown"><i id="dash-fill"></i></div></div>
+        <p class="tip">WASD 移动 · 鼠标瞄准/射击<br>数字键切换武器 · Space 冲刺</p>
+      </aside>
+      <section class="arena-frame" aria-label="Neon Rift Arena game">
+        <canvas id="arena" width="960" height="640"></canvas>
+        <div id="start-screen" class="overlay"><p class="eyebrow">SOLO SKIRMISH</p><h1>进入裂隙。</h1><p>在不断收缩的竞技场中生存，收集能量并击败追猎者。</p><button id="start" class="start-button">开始对局 <span>↗</span></button></div>
+        <div id="end-screen" class="overlay hidden"><p class="eyebrow" id="end-kicker">MATCH COMPLETE</p><h1 id="end-title">系统过载。</h1><p id="end-copy"></p><button id="play-again" class="start-button">再来一局 <span>↻</span></button></div>
+        <div class="hud top-left"><span class="hud-label">INTEGRITY</span><div class="health"><i id="health-fill"></i></div><b id="health-number">100 / 100</b></div>
+        <div class="hud top-right"><span class="hud-label">THREAT LEVEL</span><b id="wave">01</b><small id="enemies">4 hostiles</small></div>
+        <div class="hud bottom-left"><span class="hud-label">SCORE</span><b id="score">0000</b><small><span id="kills">0</span> eliminations</small></div>
+        <div class="hud bottom-center weapon-readout"><span class="hud-label" id="weapon-name">PULSE CARBINE</span><b id="ammo">∞</b><small id="weapon-info">AUTO / 18 DMG</small></div>
+      </section>
+    </section>
+    <footer class="game-footer">NEON RIFT ARENA · 原创俯视角射击原型 <span>音效与联网模式尚未接入</span></footer>
+  </main>
+  <script src="/arena/game.js"></script>
+</body>
+</html>
