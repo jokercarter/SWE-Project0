@@ -17,14 +17,15 @@
     <section class="game-layout">
       <aside class="panel loadout-panel">
         <p class="eyebrow">LOADOUT</p>
-        <button class="weapon active" data-weapon="pulse"><span class="key">1</span><span><b>Pulse Carbine</b><small>稳定、远距离</small></span><i>∞</i></button>
-        <button class="weapon" data-weapon="scatter"><span class="key">2</span><span><b>Scatter Cannon</b><small>近距离爆发</small></span><i>6</i></button>
-        <button class="weapon" data-weapon="rail"><span class="key">3</span><span><b>Rail Spike</b><small>穿透、高伤害</small></span><i>01</i></button>
-        <button class="weapon" data-weapon="arc"><span class="key">4</span><span><b>Arc Sprayer</b><small>近距离扫射</small></span><i>∞</i></button>
+        <button class="weapon active" data-weapon="rifle"><span class="key">1</span><span><b>普通枪</b><small>稳定、远距离</small></span><i>∞</i></button>
+        <button class="weapon" data-weapon="ricochet"><span class="key">2</span><span><b>反射枪</b><small>碰墙反弹两次</small></span><i>02</i></button>
+        <button class="weapon" data-weapon="grenade"><span class="key">3</span><span><b>手榴弹</b><small>落点范围爆炸</small></span><i>01</i></button>
+        <button class="weapon" data-weapon="white_rocket"><span class="key">4</span><span><b>白色导弹</b><small>直线爆炸伤害</small></span><i>01</i></button>
+        <button class="weapon" data-weapon="yellow_homing"><span class="key">5</span><span><b>黄色导弹</b><small>自动追踪敌人</small></span><i>01</i></button>
         <div class="ability"><span class="key">SPACE</span><span><b>Phase Dash</b><small>穿越火线</small></span><div class="cooldown"><i id="dash-fill"></i></div></div>
         <div class="ability"><span class="key">Q / E</span><span><b>Barrier / Repair</b><small>护盾 / 修复脉冲</small></span></div>
         <div class="upgrade-box"><p class="eyebrow">UPGRADES · 200 SCORE</p><button data-upgrade="vitality">V · Vitality</button><button data-upgrade="velocity">X · Velocity</button><button data-upgrade="amplify">C · Amplify</button></div>
-        <p class="tip">WASD 移动 · 鼠标瞄准/射击<br>1–4 切换武器 · Space 冲刺</p>
+        <p class="tip">WASD 移动 · 鼠标瞄准/射击<br>1–5 切换武器 · 草丛可隐身 · Space 冲刺</p>
       </aside>
       <section class="arena-frame" aria-label="Neon Rift Arena game">
         <canvas id="arena" width="960" height="640"></canvas>
@@ -33,7 +34,7 @@
         <div class="hud top-left"><span class="hud-label">INTEGRITY</span><div class="health"><i id="health-fill"></i></div><b id="health-number">100 / 100</b></div>
         <div class="hud top-right"><span class="hud-label">ROOM / PLAYERS</span><b id="wave">—</b><small id="enemies">连接中</small></div>
         <div class="hud bottom-left"><span class="hud-label">SCORE</span><b id="score">0000</b><small><span id="kills">0</span> eliminations</small></div>
-        <div class="hud bottom-center weapon-readout"><span class="hud-label" id="weapon-name">PULSE CARBINE</span><b id="ammo">∞</b><small id="weapon-info">AUTO / 18 DMG</small></div>
+        <div class="hud bottom-center weapon-readout"><span class="hud-label" id="weapon-name">SERVICE RIFLE</span><b id="ammo">∞</b><small id="weapon-info">AUTO / 18 DMG</small></div>
         <aside id="scoreboard" class="scoreboard hidden"><p class="eyebrow">ROOM SCOREBOARD <kbd>TAB</kbd></p><div id="score-rows"></div></aside>
         <div id="feed" class="kill-feed" aria-live="polite"></div>
         <form id="chat" class="chat hidden"><input id="chat-input" maxlength="180" placeholder="Enter 发送消息" autocomplete="off"></form>

@@ -13,11 +13,11 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 router = APIRouter()
 
 MAPS = {
-    'foundry': {'name': 'Foundry', 'accent': '#56e8ff', 'obstacles': [[190,128,100,42],[655,110,120,40],[405,305,152,44],[145,475,130,36],[670,470,100,45]]},
-    'crossfire': {'name': 'Crossfire', 'accent': '#ff6b88', 'obstacles': [[390,90,180,35],[165,245,100,120],[695,245,100,120],[390,515,180,35],[435,230,90,180]]},
-    'drift': {'name': 'Drift', 'accent': '#a58cff', 'obstacles': [[125,130,150,42],[685,130,150,42],[125,468,150,42],[685,468,150,42],[410,292,140,56]]},
+    'foundry': {'name': 'Foundry', 'accent': '#56e8ff', 'obstacles': [[190,128,100,42],[655,110,120,40],[405,305,152,44],[145,475,130,36],[670,470,100,45]], 'grass': [[78,88,82,78],[778,255,110,86],[312,485,95,72]]},
+    'crossfire': {'name': 'Crossfire', 'accent': '#ff6b88', 'obstacles': [[390,90,180,35],[165,245,100,120],[695,245,100,120],[390,515,180,35],[435,230,90,180]], 'grass': [[74,250,65,115],[830,250,65,115],[300,112,82,70],[580,458,82,70]]},
+    'drift': {'name': 'Drift', 'accent': '#a58cff', 'obstacles': [[125,130,150,42],[685,130,150,42],[125,468,150,42],[685,468,150,42],[410,292,140,56]], 'grass': [[292,100,94,70],[580,100,94,70],[292,470,94,70],[580,470,94,70]]},
 }
-WEAPONS = {'pulse': {'damage': 18, 'cooldown': .12}, 'scatter': {'damage': 12, 'cooldown': .5}, 'rail': {'damage': 46, 'cooldown': .9}, 'arc': {'damage': 8, 'cooldown': .07}}
+WEAPONS = {'rifle': {'damage': 18, 'cooldown': .12}, 'ricochet': {'damage': 22, 'cooldown': .38}, 'grenade': {'damage': 42, 'cooldown': .75}, 'white_rocket': {'damage': 38, 'cooldown': .9}, 'yellow_homing': {'damage': 30, 'cooldown': .78}}
 UPGRADES = {'vitality', 'velocity', 'amplify'}
 
 @dataclass
@@ -28,7 +28,7 @@ class Player:
     y: float
     hue: str
     hp: int = 100
-    weapon: str = 'pulse'
+    weapon: str = 'rifle'
     upgrades: dict = field(default_factory=lambda: {'vitality': 0, 'velocity': 0, 'amplify': 0})
     score: int = 0
     deaths: int = 0
@@ -49,11 +49,15 @@ rooms: dict[str, Room] = {}
 lock = asyncio.Lock()
 colors = ['#56e8ff', '#ff6b88', '#a58cff', '#77ffc1', '#ffb86b', '#f7e66d']
 
-def player_view(player: Player):
-    return {'id': player.id, 'name': player.name, 'x': round(player.x, 1), 'y': round(player.y, 1), 'hue': player.hue, 'hp': player.hp, 'weapon': player.weapon, 'upgrades': player.upgrades, 'score': player.score, 'deaths': player.deaths, 'shielded': player.shield_until > time.monotonic()}
+def player_view(player: Player, map_id: str):
+    """The server decides concealment, so clients cannot reveal grass players."""
+    hidden = any(player.x >= x and player.x <= x + width and player.y >= y and player.y <= y + height
+                 for x, y, width, height in MAPS[map_id]['grass'])
+    return {'id': player.id, 'name': player.name, 'x': round(player.x, 1), 'y': round(player.y, 1), 'hue': player.hue, 'hp': player.hp, 'weapon': player.weapon, 'upgrades': player.upgrades, 'score': player.score, 'deaths': player.deaths, 'shielded': player.shield_until > time.monotonic(), 'hidden': hidden}
 
 def room_view(room: Room):
-    return {'type': 'state', 'room': room.code, 'map': room.map_id, 'players': [player_view(p) for p in room.players.values()]}
+    return {'type': 'state', 'room': room.code, 'map': room.map_id,
+            'players': [player_view(p, room.map_id) for p in room.players.values()]}
 
 def collides(map_id: str, x: float, y: float, radius: float = 16):
     if x < radius + 18 or x > 960 - radius - 18 or y < radius + 18 or y > 640 - radius - 18:
