@@ -4,6 +4,8 @@ The server owns rooms and relays only a deliberately small, validated game-state
 surface. It has no database and disappears when the local server stops.
 """
 import asyncio
+import math
+import random
 import secrets
 import time
 from dataclasses import dataclass, field
@@ -36,6 +38,9 @@ class Player:
     shield_until: float = 0
     next_shield: float = 0
     next_repair: float = 0
+    is_bot: bool = False
+    bot_heading: float = 0
+    next_bot_shot: float = 0
 
 @dataclass
 class Room:
@@ -44,15 +49,19 @@ class Room:
     players: dict = field(default_factory=dict)
     sockets: dict = field(default_factory=dict)
     created: float = field(default_factory=time.time)
+    bot_task: asyncio.Task | None = None
 
 rooms: dict[str, Room] = {}
 lock = asyncio.Lock()
 colors = ['#56e8ff', '#ff6b88', '#a58cff', '#77ffc1', '#ffb86b', '#f7e66d']
 
+def in_grass(map_id: str, x: float, y: float):
+    return any(x >= gx and x <= gx + width and y >= gy and y <= gy + height
+               for gx, gy, width, height in MAPS[map_id]['grass'])
+
 def player_view(player: Player, map_id: str):
     """The server decides concealment, so clients cannot reveal grass players."""
-    hidden = any(player.x >= x and player.x <= x + width and player.y >= y and player.y <= y + height
-                 for x, y, width, height in MAPS[map_id]['grass'])
+    hidden = in_grass(map_id, player.x, player.y)
     return {'id': player.id, 'name': player.name, 'x': round(player.x, 1), 'y': round(player.y, 1), 'hue': player.hue, 'hp': player.hp, 'weapon': player.weapon, 'upgrades': player.upgrades, 'score': player.score, 'deaths': player.deaths, 'shielded': player.shield_until > time.monotonic(), 'hidden': hidden}
 
 def room_view(room: Room):
@@ -65,6 +74,13 @@ def collides(map_id: str, x: float, y: float, radius: float = 16):
     return any(x + radius > ox and x - radius < ox + width and y + radius > oy and y - radius < oy + height
                for ox, oy, width, height in MAPS[map_id]['obstacles'])
 
+def safe_spawn(map_id: str):
+    for _ in range(30):
+        x, y = random.randint(70, 890), random.randint(70, 570)
+        if not collides(map_id, x, y):
+            return x, y
+    return 880, 560
+
 async def broadcast(room: Room, message: dict):
     stale = []
     for player_id, socket in room.sockets.items():
@@ -75,6 +91,50 @@ async def broadcast(room: Room, message: dict):
     for player_id in stale:
         room.sockets.pop(player_id, None)
         room.players.pop(player_id, None)
+
+async def run_bot(room: Room, bot_id: str):
+    """A lightweight server-side opponent for a room with no extra client needed."""
+    while rooms.get(room.code) is room:
+        await asyncio.sleep(.20)
+        bot = room.players.get(bot_id)
+        humans = [p for p in room.players.values() if not p.is_bot]
+        if not bot or not humans:
+            return
+        visible = [p for p in humans if not in_grass(room.map_id, p.x, p.y)]
+        target = min(visible, key=lambda p: math.hypot(p.x - bot.x, p.y - bot.y), default=None)
+        if target:
+            distance = math.hypot(target.x - bot.x, target.y - bot.y)
+            heading = math.atan2(target.y - bot.y, target.x - bot.x)
+            if distance < 215:
+                heading += math.pi / 2
+            bot.bot_heading = heading + random.uniform(-.24, .24)
+        else:
+            bot.bot_heading += random.uniform(-.55, .55)
+        nx = bot.x + math.cos(bot.bot_heading) * 32
+        ny = bot.y + math.sin(bot.bot_heading) * 32
+        if collides(room.map_id, nx, bot.y) or collides(room.map_id, bot.x, ny):
+            bot.bot_heading += math.pi * random.choice((.55, .75))
+        else:
+            bot.x, bot.y = nx, ny
+        now = time.monotonic()
+        if target and distance < 465 and now >= bot.next_bot_shot:
+            bot.next_bot_shot = now + .72
+            angle = math.atan2(target.y - bot.y, target.x - bot.x)
+            vx, vy = math.cos(angle) * 365, math.sin(angle) * 365
+            await broadcast(room, {'type': 'event', 'from': bot.id, 'kind': 'shot', 'payload': {
+                'x': bot.x, 'y': bot.y, 'vx': vx, 'vy': vy, 'r': 6, 'life': 1500,
+                'color': '#ffe65a', 'kind': 'homing', 'blast': 42, 'damage': 12,
+                'target': target.id, 'turn': 4.2
+            }})
+            if target.shield_until <= now:
+                target.hp -= 12
+                if target.hp <= 0:
+                    target.deaths += 1
+                    target.hp = 100 + target.upgrades['vitality'] * 20
+                    target.x, target.y = safe_spawn(room.map_id)
+                    bot.score += 100
+                    await broadcast(room, {'type': 'event', 'kind': 'kill', 'payload': {'by': bot.name, 'target': target.name}})
+        await broadcast(room, room_view(room))
 
 @router.get('/api/arena/maps')
 def arena_maps():
@@ -106,6 +166,13 @@ async def arena_socket(socket: WebSocket):
             player = Player(id=secrets.token_urlsafe(6), name=name, x=150 + len(room.players) * 70, y=170 + len(room.players) * 55, hue=colors[len(room.players) % len(colors)])
             room.players[player.id] = player
             room.sockets[player.id] = socket
+            if not any(candidate.is_bot for candidate in room.players.values()):
+                bot_x, bot_y = safe_spawn(room.map_id)
+                bot = Player(id=f'bot-{secrets.token_hex(3)}', name='RIFT-BOT', x=bot_x, y=bot_y,
+                             hue='#ffe65a', weapon='yellow_homing', is_bot=True,
+                             bot_heading=random.random() * math.tau)
+                room.players[bot.id] = bot
+                room.bot_task = asyncio.create_task(run_bot(room, bot.id))
         await socket.send_json({**room_view(room), 'type': 'welcome', 'id': player.id, 'maps': MAPS})
         await broadcast(room, room_view(room))
         while True:
@@ -171,7 +238,9 @@ async def arena_socket(socket: WebSocket):
             async with lock:
                 room.players.pop(player.id, None)
                 room.sockets.pop(player.id, None)
-                if room.players:
+                if any(not candidate.is_bot for candidate in room.players.values()):
                     await broadcast(room, room_view(room))
                 else:
+                    if room.bot_task:
+                        room.bot_task.cancel()
                     rooms.pop(room.code, None)
