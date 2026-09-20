@@ -52,6 +52,12 @@ def player_view(player: Player):
 def room_view(room: Room):
     return {'type': 'state', 'room': room.code, 'map': room.map_id, 'players': [player_view(p) for p in room.players.values()]}
 
+def collides(map_id: str, x: float, y: float, radius: float = 16):
+    if x < radius + 18 or x > 960 - radius - 18 or y < radius + 18 or y > 640 - radius - 18:
+        return True
+    return any(x + radius > ox and x - radius < ox + width and y + radius > oy and y - radius < oy + height
+               for ox, oy, width, height in MAPS[map_id]['obstacles'])
+
 async def broadcast(room: Room, message: dict):
     stale = []
     for player_id, socket in room.sockets.items():
@@ -104,8 +110,11 @@ async def arena_socket(socket: WebSocket):
             if kind == 'move':
                 x, y = message.get('x'), message.get('y')
                 if isinstance(x, (int, float)) and isinstance(y, (int, float)):
-                    player.x = max(24, min(936, x))
-                    player.y = max(24, min(616, y))
+                    x, y = max(34, min(926, x)), max(34, min(606, y))
+                    if not collides(room.map_id, x, player.y):
+                        player.x = x
+                    if not collides(room.map_id, player.x, y):
+                        player.y = y
             elif kind == 'weapon' and message.get('weapon') in WEAPONS:
                 player.weapon = message['weapon']
             elif kind == 'upgrade' and message.get('upgrade') in UPGRADES:
