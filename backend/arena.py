@@ -33,6 +33,9 @@ class Player:
     score: int = 0
     deaths: int = 0
     last_seen: float = field(default_factory=time.time)
+    shield_until: float = 0
+    next_shield: float = 0
+    next_repair: float = 0
 
 @dataclass
 class Room:
@@ -47,7 +50,7 @@ lock = asyncio.Lock()
 colors = ['#56e8ff', '#ff6b88', '#a58cff', '#77ffc1', '#ffb86b', '#f7e66d']
 
 def player_view(player: Player):
-    return {'id': player.id, 'name': player.name, 'x': round(player.x, 1), 'y': round(player.y, 1), 'hue': player.hue, 'hp': player.hp, 'weapon': player.weapon, 'upgrades': player.upgrades, 'score': player.score, 'deaths': player.deaths}
+    return {'id': player.id, 'name': player.name, 'x': round(player.x, 1), 'y': round(player.y, 1), 'hue': player.hue, 'hp': player.hp, 'weapon': player.weapon, 'upgrades': player.upgrades, 'score': player.score, 'deaths': player.deaths, 'shielded': player.shield_until > time.monotonic()}
 
 def room_view(room: Room):
     return {'type': 'state', 'room': room.code, 'map': room.map_id, 'players': [player_view(p) for p in room.players.values()]}
@@ -124,10 +127,21 @@ async def arena_socket(socket: WebSocket):
                     player.upgrades[upgrade] += 1
                     if upgrade == 'vitality':
                         player.hp = min(160, player.hp + 25)
+            elif kind == 'ability':
+                now = time.monotonic()
+                ability = message.get('ability')
+                if ability == 'shield' and now >= player.next_shield:
+                    player.shield_until = now + 1.6
+                    player.next_shield = now + 8
+                    await broadcast(room, {'type': 'event', 'kind': 'ability', 'payload': {'id': player.id, 'ability': 'shield'}})
+                elif ability == 'repair' and now >= player.next_repair:
+                    player.hp = min(100 + player.upgrades['vitality'] * 20, player.hp + 22)
+                    player.next_repair = now + 12
+                    await broadcast(room, {'type': 'event', 'kind': 'ability', 'payload': {'id': player.id, 'ability': 'repair'}})
             elif kind == 'damage':
                 target_id, damage = message.get('target'), message.get('damage')
                 target = room.players.get(target_id)
-                if target and target.id != player.id and isinstance(damage, (int, float)) and 0 < damage <= 60:
+                if target and target.id != player.id and target.shield_until <= time.monotonic() and isinstance(damage, (int, float)) and 0 < damage <= 60:
                     target.hp -= int(damage)
                     if target.hp <= 0:
                         target.deaths += 1
