@@ -19,20 +19,23 @@
         <p class="eyebrow">LOADOUT</p>
         <button class="weapon active" data-weapon="pulse"><span class="key">1</span><span><b>Pulse Carbine</b><small>稳定、远距离</small></span><i>∞</i></button>
         <button class="weapon" data-weapon="scatter"><span class="key">2</span><span><b>Scatter Cannon</b><small>近距离爆发</small></span><i>6</i></button>
+        <button class="weapon" data-weapon="rail"><span class="key">3</span><span><b>Rail Spike</b><small>穿透、高伤害</small></span><i>01</i></button>
+        <button class="weapon" data-weapon="arc"><span class="key">4</span><span><b>Arc Sprayer</b><small>近距离扫射</small></span><i>∞</i></button>
         <div class="ability"><span class="key">SPACE</span><span><b>Phase Dash</b><small>穿越火线</small></span><div class="cooldown"><i id="dash-fill"></i></div></div>
-        <p class="tip">WASD 移动 · 鼠标瞄准/射击<br>数字键切换武器 · Space 冲刺</p>
+        <div class="upgrade-box"><p class="eyebrow">UPGRADES · 200 SCORE</p><button data-upgrade="vitality">V · Vitality</button><button data-upgrade="velocity">X · Velocity</button><button data-upgrade="amplify">C · Amplify</button></div>
+        <p class="tip">WASD 移动 · 鼠标瞄准/射击<br>1–4 切换武器 · Space 冲刺</p>
       </aside>
       <section class="arena-frame" aria-label="Neon Rift Arena game">
         <canvas id="arena" width="960" height="640"></canvas>
-        <div id="start-screen" class="overlay"><p class="eyebrow">SOLO SKIRMISH</p><h1>进入裂隙。</h1><p>在不断收缩的竞技场中生存，收集能量并击败追猎者。</p><button id="start" class="start-button">开始对局 <span>↗</span></button></div>
+        <div id="start-screen" class="overlay"><p class="eyebrow">MULTIPLAYER DEATHMATCH</p><h1>进入裂隙。</h1><p>创建房间或输入同一个房间码，和其他玩家在原创竞技场中对战。</p><div class="lobby-fields"><label>呼号<input id="nickname" maxlength="18" value="Rifter"></label><label>房间码<input id="room-code" maxlength="8" placeholder="留空自动创建"></label></div><div class="map-picker"><button data-map="foundry" class="active">FOUNDRY</button><button data-map="crossfire">CROSSFIRE</button><button data-map="drift">DRIFT</button></div><button id="start" class="start-button">进入房间 <span>↗</span></button><small id="lobby-status">同一个房间码最多可容纳 12 位玩家。</small></div>
         <div id="end-screen" class="overlay hidden"><p class="eyebrow" id="end-kicker">MATCH COMPLETE</p><h1 id="end-title">系统过载。</h1><p id="end-copy"></p><button id="play-again" class="start-button">再来一局 <span>↻</span></button></div>
         <div class="hud top-left"><span class="hud-label">INTEGRITY</span><div class="health"><i id="health-fill"></i></div><b id="health-number">100 / 100</b></div>
-        <div class="hud top-right"><span class="hud-label">THREAT LEVEL</span><b id="wave">01</b><small id="enemies">4 hostiles</small></div>
+        <div class="hud top-right"><span class="hud-label">ROOM / PLAYERS</span><b id="wave">—</b><small id="enemies">连接中</small></div>
         <div class="hud bottom-left"><span class="hud-label">SCORE</span><b id="score">0000</b><small><span id="kills">0</span> eliminations</small></div>
         <div class="hud bottom-center weapon-readout"><span class="hud-label" id="weapon-name">PULSE CARBINE</span><b id="ammo">∞</b><small id="weapon-info">AUTO / 18 DMG</small></div>
       </section>
     </section>
-    <footer class="game-footer">NEON RIFT ARENA · 原创俯视角射击原型 <span>音效与联网模式尚未接入</span></footer>
+    <footer class="game-footer">NEON RIFT ARENA · 原创多人俯视角射击原型 <span>本地服务器重启后可在多个浏览器标签页联机</span></footer>
   </main>
   <script src="/arena/game.js"></script>
 </body>

@@ -5,6 +5,7 @@ from .main import app
 from . import features
 from . import codex_adapter
 from . import management
+from . import arena
 
 @app.on_event('shutdown')
 async def shutdown():
