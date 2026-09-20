@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: neon-rift-arena
+    runtime: docker
+    dockerfilePath: ./Dockerfile.arena
+    healthCheckPath: /health

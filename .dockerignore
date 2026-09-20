@@ -1,0 +1,11 @@
+node_modules/
+.venv/
+.workbench/
+dist/
+workbench-dist/
+.git/
+output/
+test-results/
+__pycache__/
+*.sqlite
+*.db

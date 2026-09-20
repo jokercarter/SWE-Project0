@@ -5,7 +5,9 @@ from .main import app
 from . import features
 from . import codex_adapter
 from . import management
-from . import arena
+from .arena import router as arena_router
+
+app.include_router(arena_router)
 
 @app.on_event('shutdown')
 async def shutdown():

@@ -8,9 +8,9 @@ import secrets
 import time
 from dataclasses import dataclass, field
 
-from fastapi import WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
-from .main import app
+router = APIRouter()
 
 MAPS = {
     'foundry': {'name': 'Foundry', 'accent': '#56e8ff', 'obstacles': [[190,128,100,42],[655,110,120,40],[405,305,152,44],[145,475,130,36],[670,470,100,45]]},
@@ -69,11 +69,11 @@ async def broadcast(room: Room, message: dict):
         room.sockets.pop(player_id, None)
         room.players.pop(player_id, None)
 
-@app.get('/api/arena/maps')
+@router.get('/api/arena/maps')
 def arena_maps():
     return [{'id': key, 'name': value['name'], 'accent': value['accent']} for key, value in MAPS.items()]
 
-@app.websocket('/ws/arena')
+@router.websocket('/ws/arena')
 async def arena_socket(socket: WebSocket):
     await socket.accept()
     player = None
